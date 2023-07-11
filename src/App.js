@@ -1,23 +1,126 @@
-import logo from './logo.svg';
-import './App.css';
+import "./CSS/App.css";
+import NumberButton from "./components/NumberButton";
+import SignButton from "./components/SignButton";
+import DisplayArea from "./components/DisplayArea";
+import React from "react";
+import "bulma/css/bulma.min.css";
+import { useState } from "react";
 
 function App() {
+  const [result, setResult] = useState(0);
+  const [firstValue, setFirstValue] = useState(0);
+  const [operand, setOperand] = useState("");
+
+  function handleClickForNumber(value) {
+    setResult((prev) => {
+      if (Math.floor(prev / 10000000) <= 0) {
+        return prev * 10 + value;
+      } else {
+        return prev;
+      }
+    });
+  }
+
+  function handleClickForSign(op) {
+    console.log(op);
+    if(op === "AC") {
+      setFirstValue(0);
+      setResult(0);
+      setOperand("");
+    }
+    else if(op === "=") {
+      console.log("fine");
+      setResult(calculation(firstValue, result, operand));
+    }
+    else {
+      setFirstValue(result)
+      setResult(0);
+      setOperand(op);
+      console.log("wow");
+    }
+  }
+
+  function calculation(firstNum, secondNum, op) {
+    if (op === "+") {
+      console.log(firstNum + secondNum);
+      return firstNum + secondNum;
+    } else if (op === "-") {
+      return firstNum - secondNum;
+    } else if (op === "x") {
+      return firstNum * secondNum;
+    } else if (op === "/") {
+      return firstNum/secondNum;
+    }
+    else {
+      return 0;
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <DisplayArea result={result} />
+
+      <div className="section">
+        <div className="columns">
+          <div className="column">
+            <SignButton value={"/"} func={handleClickForSign} />
+          </div>
+          <div className="column">
+            <NumberButton value={7} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <NumberButton value={8} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <NumberButton value={9} func={handleClickForNumber} />
+          </div>
+        </div>
+
+        <div className="columns">
+          <div className="column">
+            <SignButton value={"x"} func={handleClickForSign} />
+          </div>
+          <div className="column">
+            <NumberButton value={4} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <NumberButton value={5} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <NumberButton value={6} func={handleClickForNumber} />
+          </div>
+        </div>
+
+        <div className="columns">
+          <div className="column">
+            <SignButton value={"-"} func={handleClickForSign} />
+          </div>
+          <div className="column">
+            <NumberButton value={1} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <NumberButton value={2} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <NumberButton value={3} func={handleClickForNumber} />
+          </div>
+        </div>
+
+        <div className="columns">
+          <div className="column">
+            <SignButton value={"+"} func={handleClickForSign} />
+          </div>
+          <div className="column">
+            <SignButton value={"AC"} func={handleClickForSign} />
+          </div>
+          <div className="column">
+            <NumberButton value={0} func={handleClickForNumber} />
+          </div>
+          <div className="column">
+            <SignButton value={"="} func={handleClickForSign} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
