@@ -47,9 +47,13 @@ function App() {
     } else if (op === "-") {
       return firstNum - secondNum;
     } else if (op === "x") {
-      return firstNum * secondNum;
+      const res = firstNum * secondNum;
+      if(Math.floor(res/10000000) > 0) {
+        return res.toExponential(4);
+      }
+      return res;
     } else if (op === "/") {
-      return firstNum/secondNum;
+      return (firstNum/secondNum).toPrecision(5);
     }
     else {
       return 0;
@@ -60,7 +64,7 @@ function App() {
     <div className="App">
       <DisplayArea result={result} />
 
-      <div className="section">
+      <div className="App">
         <div className="columns">
           <div className="column">
             <SignButton value={"/"} func={handleClickForSign} />
@@ -71,7 +75,7 @@ function App() {
           <div className="column">
             <NumberButton value={8} func={handleClickForNumber} />
           </div>
-          <div className="column">
+          <div className="column"> 
             <NumberButton value={9} func={handleClickForNumber} />
           </div>
         </div>
